@@ -1,0 +1,36 @@
+Today I learning about how to set up the environment
+for AI  because If i  broke this environment, 
+every single lesson becomes a fight against tooling instead of learning.
+
+
+
+
+soo I have seen that our environment has 4 layers:
+4. AI/ML Libraries
+PyTorch, JAX, transformers, etc.
+
+3. Language Runtimes
+Python 3.11+, Node 20+, Rust, Julia
+
+2. Package Managers
+uv, pnpm, cargo, juliaup
+          
+1. System Foundation
+OS, shell, git, editor, GPU drivers
+
+order :
+AI/ML libraries
+language runtimes
+package managers
+system
+
+The environment builds bottom-up: 
+the OS and GPU driver first,
+then package managers,
+then language runtimes,
+then the AI libraries that depend on all three.
+When import torch fails,
+walk the stack downward,
+the broken layer is almost never the one that raised the error.
+
+
