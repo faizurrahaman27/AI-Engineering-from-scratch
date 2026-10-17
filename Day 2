@@ -1,0 +1,22 @@
+Version control is not optional. Every experiment, every model, every lesson you build here gets tracked.
+
+Git is the tool. GitHub is where the code lives. This lesson covers what you need for this course and nothing more.
+
+we will understand now how it works
+>>>
+There is a diagram:
+
+working directory<--------staging area<---------local repo ---------->remote(Github)
+        |                     |                      |                      |
+        |--git add-------->>>-|                      |--git push--------->>>|
+        |                     |--git commit----->>>--|                      |
+        |                     |                      |--git fetch-------->>>|
+        |<<<---git pull-------|<<<---git pull--------|                      |
+working directory<--------staging area<---------local repo ---------->remote(Github)
+
+>>>
+Three things to remember:
+
+Save often (git commit)
+Push to remote (git push)
+Branch for experiments (git checkout -b experiment)
