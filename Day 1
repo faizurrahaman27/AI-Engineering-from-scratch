@@ -55,3 +55,20 @@ a = np.array([1, 2, 3])
 print(f"Vector: {a}, dot product with itself: {np.dot(a, a)}")
 
 for the rest of installments will do eventually as we progresss ...
+
+
+
+
+
+
+
+*----------------*-------------------*-----------------*
+Your environment is ready to start the route you checked.
+Install later tools when a lesson asks for them instead of blocking your first lesson on the whole stack.
+Here is what you will use across the curriculum:
+
+Language	          Used In	                                        Package Manager
+Python	          Phases 1-12 (ML, DL, NLP, Vision, Audio, LLMs)	uv
+TypeScript	Phases 13-17 (Tools, Agents, Swarms, Infra)	pnpm
+Rust	          Phases 12, 15-17 (Performance-critical systems)	cargo
+Julia	          Phase 1 (Math foundations)	                    Pkg
