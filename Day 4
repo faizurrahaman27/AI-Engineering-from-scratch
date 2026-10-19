@@ -1,0 +1,117 @@
+Today Iam  learning about APIs and keys
+
+Every AI API works the same way: send a request, get a response. The details change, the pattern doesn't.
+
+Problem....>>>
+Starting from Phase 11,you'll call LLM APIs (Anthropic, OpenAI, Google).
+In Phase 13-16 you'll build agents that use these APIs in loops.
+You need to know how API keys work, how to store them safely, and how to make your first API call.
+
+
+Your code                     Api Server
+    |                             |
+    |  HTTP Request (with API key)|
+    |---------->>>>------------>>>|
+    |                             |
+    |                             |
+    |------<<<<-------------<<----|
+    |     HTTP Response (JSON)    |
+Your code                    Api Server
+
+
+Every API call has:
+
+An endpoint (URL)
+An API key (authentication)
+A request body (what you want)
+A response body (what you get back)
+
+
+Build It
+
+Step 1: Store API keys safely
+Never put API keys in code. Use environment variables.
+
+export ANTHROPIC_API_KEY="sk-ant-..."
+export OPENAI_API_KEY="sk-..."
+
+Or use a .env file (add it to .gitignore):
+ANTHROPIC_API_KEY=sk-ant-...
+OPENAI_API_KEY=sk-...
+
+step 2:First API call (Python)
+
+import os
+
+import anthropic
+
+client = anthropic.Anthropic()
+
+MODEL = os.environ.get("LLM_MODEL", "claude-sonnet-5")
+
+response = client.messages.create(
+    model=MODEL,
+    max_tokens=256,
+    messages=[{"role": "user", "content": "What is a neural network in one sentence?"}]
+)
+
+print(response.content[0].text)
+
+here >>>
+LLM_MODEL selects the Anthropic model id, and the default is the un-dated Sonnet alias.
+Other providers (OpenAI, Google, and others) follow the same pattern of a key plus a model id, but each has its own SDK, endpoint, and request/response schema.
+
+
+Step 3: First API call (TypeScript)
+
+import Anthropic from "@anthropic-ai/sdk";
+
+const client = new Anthropic();
+
+const MODEL = process.env.LLM_MODEL ?? "claude-sonnet-5";
+
+const response = await client.messages.create({
+  model: MODEL,
+  max_tokens: 256,
+  messages: [{ role: "user", content: "What is a neural network in one sentence?" }],
+});
+
+console.log(response.content[0].text);
+
+
+Step 4: Raw HTTP (no SDK)
+
+
+import os
+import urllib.request
+import json
+
+url = "https://api.anthropic.com/v1/messages"
+headers = {
+    "Content-Type": "application/json",
+    "x-api-key": os.environ["ANTHROPIC_API_KEY"],
+    "anthropic-version": "2023-06-01",
+}
+body = json.dumps({
+    "model": os.environ.get("LLM_MODEL", "claude-sonnet-5"),
+    "max_tokens": 256,
+    "messages": [{"role": "user", "content": "What is a neural network in one sentence?"}],
+}).encode()
+
+req = urllib.request.Request(url, data=body, headers=headers, method="POST")
+with urllib.request.urlopen(req) as resp:
+    result = json.loads(resp.read())
+    print(result["content"][0]["text"])
+
+This is what the SDKs do under the hood. Understanding the raw HTTP call helps when debugging.
+
+
+
+For this course:
+
+
+API	                        When you need it	                   Free tier
+Anthropic (Claude)	        Phases 11-16 (agents, tools)	       $5 credit on signup
+OpenAI	                    Phase 11 (comparison)	               $5 credit on signup
+Hugging Face	              Phases 4-10 (models, datasets)	     Free
+
