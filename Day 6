@@ -1,0 +1,116 @@
+Dependency hell is real. Virtual environments are the cure.
+
+
+problem:
+
+You install PyTorch 2.4 for a fine-tuning project.
+Next week, a different project needs PyTorch 2.1 because its CUDA build is pinned.
+You upgrade globally, and the first project breaks.
+ You downgrade, and the second one breaks.
+
+This is dependency hell. It happens constantly in AI/ML work because:
+
+PyTorch, JAX, and TensorFlow each ship their own CUDA bindings
+Model libraries pin specific framework versions
+A global pip install overwrites whatever was there before
+CUDA 11.8 builds don't work with CUDA 12.x drivers (and vice versa)
+
+The fix: every project gets its own isolated environment with its own packages.
+
+With virtual environments                                                        Without virtual environment
+                                                                                    
+Project A (.venv/)            torch 2.4.0 (CUDA 12.4)                            System Python            torch 2.4.0 (CUDA 12.4)
+                              transformers 4.44                                                           Project A needs this
+
+Project B (.venv/)            torch 2.1.0 (CUDA 11.8)                                                     torch 2.1.0 (CUDA 11.8)                           
+                              diffusers 0.28                                                              Project B needs this
+
+                                                                                                          
+                                                                                                          CONFLICT: only one
+                                                                                                          torch version can exist
+
+
+thats it... lets build this now 
+
+Building it..
+There are three versions to do this.
+********************************************************************************************
+Option 1: uv venv (Recommended)
+uv is the fastest Python package manager (10-100x faster than pip).
+It handles virtual environments, Python versions, and dependency resolution in one tool.
+
+bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+uv python install 3.12
+
+cd your-project
+uv venv
+source .venv/bin/activate
+
+Install packages:
+uv pip install torch numpy
+
+Create a project with pyproject.toml in one step:
+uv init my-ai-project
+cd my-ai-project
+uv add torch numpy matplotlib
+************************************************************************************************
+Option 2: venv (Built-in)
+
+If you can't install uv, Python ships with venv:
+
+bash
+python3 -m venv .venv
+source .venv/bin/activate  # Linux/macOS
+.venv\Scripts\activate     # Windows
+
+pip install torch numpy
+Slower than uv, but works everywhere Python is installed.
+**************************************************************************************************
+Option 3: conda (When You Need It)
+Conda manages non-Python dependencies like CUDA toolkits, cuDNN, and C libraries. Use it when:
+
+You need a specific CUDA toolkit version without installing it system-wide
+You're on a shared cluster where you can't install system packages
+A library's install instructions say "use conda"
+
+bash
+# Install miniconda (not the full Anaconda)
+curl -LsSf https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -o miniconda.sh
+bash miniconda.sh -b
+
+conda create -n myproject python=3.12
+conda activate myproject
+
+conda install pytorch torchvision torchaudio pytorch-cuda=12.4 -c pytorch -c nvidia
+One rule: if you use conda for an environment, use conda for all packages in that environment.
+Mixing pip install into a conda env causes dependency conflicts that are painful to debug.
+**************************************************************************************************************
+
+ai-engineering-from-scratch/
+├── .venv/                    <-- shared lightweight env for phases 0-3
+├── phases/
+│   ├── 04-neural-networks/
+│   │   └── .venv/            <-- PyTorch env
+│   ├── 05-cnns/
+│   │   └── .venv/            <-- same PyTorch env (symlink or shared)
+│   ├── 08-transformers/
+│   │   └── .venv/            <-- might need different transformer versions
+│   └── 11-llm-apis/
+│       └── .venv/            <-- API SDKs, no torch needed
+
+
+The script in code/env_setup.sh creates the base environment for this course.
+
+pyproject.toml Basics
+Lockfiles
+
+
+Common Mistakes
+1. Installing globally
+2. Mixing pip and conda
+3. Forgetting to activate
+4. Committing .venv to git
+5. CUDA version mismatch
+
