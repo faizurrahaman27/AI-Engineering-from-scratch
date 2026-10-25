@@ -1,0 +1,62 @@
+Data is the fuel. How you manage it determines how fast you go.
+
+
+The Problem:
+
+Every AI project starts with data.
+You need to find datasets, download them, convert between formats, split them for training and evaluation, and version them so experiments are reproducible.
+Doing this manually every time is slow and error-prone. You need a repeatable workflow.
+
+
+                                                        Hugging Face Hub
+                                                        
+                                                        datasets library
+
+
+
+                Load / Stream                                                                             Format Conversion 
+                                                                                                          CSV, JSON, Parquet, Arrow
+
+
+                Local Cache                                                                               Data Splits                                                                                           
+                ~/.cache/huggingface/                                                                     train / val / test
+
+
+
+                                                                                                          Your Training Pipeline
+                  
+
+
+
+
+The Hugging Face datasets library is the standard way to load data for AI work.
+It handles downloading, caching, format conversion, and streaming out of the box.
+
+The raw CSV is never edited in place: it flows into a typed, compressed Parquet artifact, then into train, val, and test splits cut with a fixed seed.
+Because each arrow is a script and the seed is pinned, anyone can regenerate the exact rows your metrics were computed on, and that is what makes an experiment comparable.
+
+Datasets Used in This Course
+Dataset	Lessons	Size	What It Teaches
+IMDB	Tokenization, classification	84 MB	Text classification basics
+WikiText	Language modeling	181 MB	Next-token prediction
+SQuAD	QA systems	35 MB	Question answering, spans
+Common Crawl (subset)	Embeddings	Varies	Large-scale text processing
+MNIST	Vision basics	21 MB	Image classification fundamentals
+COCO (subset)	Multimodal	Varies	Image-text pairs
+You do not need to download all of these now. Each lesson specifies what it needs.
+
+
+
+Key Terms
+Term	                                  What people say	                                                What it actually means
+Dataset                                 split	"Training data"	                                A named subset (train/val/test) used at different stages of the ML lifecycle
+Streaming	                              "Load it lazily"	                                    Processing data row by row from a remote source without downloading the full dataset
+Parquet	                                "Compressed CSV"	                                    A columnar file format optimized for analytical queries and storage efficiency
+Arrow	                                  "Fast dataframe"	                                    An in-memory columnar format used internally by the datasets library for zero-copy reads
+Git LFS	                                "Git for big files"	                                  An extension that stores large files outside the git repo while keeping pointers in version control
+DVC	                                    "Git for data"	                                      A version control system for datasets and models that integrates with cloud storage
+Cache	                                  "Already downloaded"	                                A local copy of previously fetched data, stored at ~/.cache/huggingface/ by default
+
+
+
+
