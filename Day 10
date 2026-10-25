@@ -1,0 +1,60 @@
+Terminal & Shell
+
+The terminal is where AI engineers live. Get comfortable here.
+
+
+The Problem
+You will spend more time in the terminal than in any editor.
+Training runs, GPU monitoring, log tailing, remote SSH sessions, environment management.
+Every AI workflow touches the shell. If you're slow here, you're slow everywhere.
+
+This lesson covers the terminal skills that matter for AI work. No history of Unix.
+No deep-dive into Bash scripting. Just what you need.
+
+
+The Concept
+
+tmux session: training
+Top row
+Pane 1: Training run                                       Pane 2: GPU monitor
+python train.py                                            watch -n1 nvidia-smi
+Epoch 12/100 ...                                           GPU: 78% | Mem: 14/24G
+
+
+Pane 3: Logs +
+experiments
+tail -f logs/train.log |
+grep loss
+
+
+Three things running at once. One terminal. You can detach, go home, SSH back in, and reattach. The training keeps running.
+
+lets build this now:
+
+Step 1: Know your shell
+Step 2: Piping and redirects
+Step 3: Background processes
+Step 4: tmux
+Step 5: Monitoring with htop and nvtop
+Step 6: SSH for remote GPU boxes
+Step 7: Useful aliases for AI work
+Step 8: Common AI terminal patterns
+
+I cant build this now bcs it took time and i cant understands well enough still.
+this will be build and continues............
+....................
+
+
+USE IT:
+
+Here's when each tool comes into play during this course:
+
+Tool	                When you use it
+tmux	                Every training run (Phases 3+)
+tail -f + grep	      Monitoring training logs
+nohup / &	            Quick background tasks
+htop / nvtop	        Debugging slow training, OOM errors
+SSH + rsync	          Working on cloud GPUs
+Piping + redirects	  Processing experiment results
+Aliases	              Saving time on repetitive commands
+
