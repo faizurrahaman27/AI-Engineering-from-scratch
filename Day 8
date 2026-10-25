@@ -1,0 +1,114 @@
+Your editor is your co-pilot. Configure it once so it stays out of your way and starts pulling its weight.
+
+5. Remote Development
+SSH into GPU boxes, cloud VMs
+
+4. Terminal Integration
+Run scripts, debug, monitor GPU
+
+3. AI-Specific Settings
+Auto-format, type checking, rulers
+
+2. Extensions
+Python, Jupyter, Pylance, GitLens
+
+1. Base Editor
+VS Code — free, extensible, universal
+
+The editor does not understand Python; the language server does.
+Each edit ships a didChange notification across the wire, the server re-checks the file, and diagnostics come back to be drawn as squiggles and hovers.
+Install the Python and Pylance extensions and this loop runs on every keystroke; skip them and the editor is a text box.
+
+Now lets build it:
+
+Step 1: Install VS Code
+Step 2: Install Essential Extensions
+
+In step 2 :
+Extension	Why
+Python	        Language support, virtual env detection, run/debug
+Pylance	        Fast type checking, autocomplete, import resolution
+Jupyter	        Run notebooks inside VS Code, variable explorer
+GitLens	        See who changed what, inline git blame
+Remote SSH	    Open a folder on a remote GPU box as if it were local
+Debugpy	        Step-through debugging for Python
+Black Formatter	Auto-format on save, consistent style
+Ruff	          Fast linting, catches common mistakes
+
+
+The file code/vscode/extensions.json in this lesson contains the full recommendations list.
+Copy it to .vscode/extensions.json in your project folder, and VS Code prompts you to install them when you open that folder.
+
+
+Step 3: Configure Settings
+
+Copy the settings from code/vscode/settings.json in this lesson, or apply them manually through Settings > Open Settings (JSON).
+
+Why these matter:
+
+Type checking on basic: Catches wrong argument types before you run. Saves debugging time on tensor shape mismatches and wrong API parameters.
+Format on save: Never think about formatting again. Black handles it.
+Rulers at 88 and 120: Black wraps at 88. The 120 marker shows when docstrings and comments are getting too long.
+Notebook output scrolling: Training loops print thousands of lines. Without scrolling, the output panel explodes.
+Auto-save: You will forget to save. Your training script will run stale code. Auto-save prevents that.
+
+Step 4: Terminal Integration
+
+VS Code's integrated terminal is where you run training scripts, monitor GPUs, and manage environments.
+
+Useful shortcuts:
+
+Action	                                  macOS	Linux/Windows
+Toggle terminal	                          ` Ctrl+ ` | Ctrl+ ``	
+New terminal	                            ` Ctrl+Shift+ ` | Ctrl+Shift+ ``	
+Split terminal	                          Cmd+\	Ctrl+Shift+5
+
+Split terminals are useful: one for running your script, one for monitoring GPU with nvidia-smi -l 1 or watch -n 1 nvidia-smi.
+
+
+Step 5: Remote Development (SSH into GPU Boxes)
+
+This is the most important extension for AI work.
+You will run training on remote machines (cloud VMs, lab servers, Lambda, Vast.ai).
+Remote SSH lets you open the remote filesystem, edit files, run terminals, and debug as if everything were local.
+
+Setup:
+
+Install the Remote SSH extension (done in Step 2).
+Press Ctrl+Shift+P (or Cmd+Shift+P), type "Remote-SSH: Connect to Host".
+Enter user@your-gpu-box-ip.
+VS Code installs its server component on the remote machine automatically.
+
+
+Alternatives
+Cursor
+cursor.com is a VS Code fork with built-in AI code generation.
+It uses the same extension ecosystem and settings format.
+If you use Cursor, everything in this lesson still applies. Import the same settings.json and extensions.json.
+
+Windsurf
+windsurf.com is another AI-first VS Code fork.
+Same story: same extensions, same settings format, same Remote SSH support.
+
+Vim/Neovim
+If you already use Vim or Neovim and are productive in it, stay there.
+The minimum setup for AI Python work:
+
+pyright or pylsp for type checking (via Mason or manual install)
+nvim-lspconfig for language server integration
+jupyter-vim or molten-nvim for notebook-like execution
+telescope.nvim for file/symbol search
+none-ls.nvim with black and ruff for formatting/linting
+If you do not already use Vim, do not start now. The learning curve will compete with learning AI engineering. Use VS Code.
+
+
+KeyTerms:----->
+
+Term	                            What people say                            	What it actually means
+LSP	                              "Autocomplete engine"	                      Language Server Protocol: a standard for editors to get type info, completions, and diagnostics from a language-specific server
+Pylance	                          "The Python plugin"	                        Microsoft's Python language server using Pyright for type checking and IntelliSense
+Remote SSH	                      "Working on the server"	                    VS Code extension that runs a lightweight server on a remote machine and streams the UI to your local editor
+Format on save	                  "Auto-prettier"	                            The editor runs a formatter (Black, Ruff) every time you save, so code style is always consistent
+
+
+
