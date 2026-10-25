@@ -1,0 +1,66 @@
+Python for AI Engineering
+
+Most code in this course uses the same small set of Python idioms. Learn that set here, before the math and model lessons depend on it.
+
+
+The Problem
+The lessons after this phase use plain Python for the math and the models.
+Of the 541 Python files in the lessons, 276 import dataclasses.
+Also, 187 files call random.seed or create a random.Random generator.
+If those idioms are new to you, you read syntax when you want to read the math.
+
+Python also has behaviors that give wrong results with no error message.
+Two names can refer to one list, so a change through one name also changes the other.
+A default argument keeps its value from one call to the next.
+A generator is empty after one pass, so a second training epoch gets no data and the loss does not change.
+
+The last problem is speed.
+On our test laptop, a pure-Python loop over a million floats took about 30 milliseconds.
+NumPy computed the same dot product in less than one millisecond. You need to know the reason, so that you can choose between a clear loop and an array operation.
+
+
+
+The Concept
+What the course code uses
+Names refer to objects
+A list holds pointers, an array holds numbers
+A list holds every item, a generator holds one
+The Idioms You Need
+1. Values, collections, and unpacking
+2. Comprehensions
+3. Functions, arguments, and closures
+4. Classes and dataclasses
+5. Iterators and generators
+6. Context managers and exceptions
+7. Type hints, modules, and the main guard
+8. Files, JSON, CSV, and sorting
+9. Counting, grouping, and iterator tools
+10. Why loops over numbers are slow
+Build It
+Step 1: A record type and a dataset loader
+Step 2: A seeded train and test split
+Step 3: A mini-batch generator
+Step 4: Vector math and a standardizer
+Step 5: A complete run
+Step 6: Measure speed and memory
+Use It
+The standard library versions
+The same math with compiled arrays
+Broadcasting
+
+These are the things i have to build 
+
+
+Key Terms
+Term	                    What people say	                              What it means
+Iterable	                "Something you can loop over"	                An object that iter() accepts, such as a list, a file, or a generator
+Iterator	                "A cursor"	                                  An object whose __next__ method returns one item per call and raises StopIteration at the end
+Generator	                "A lazy list"	                                An iterator from a yield function or a generator expression. It makes each item on request and runs only once.
+Comprehension	            "A one-line loop"	                            An expression that builds a list, dict, or set from an iterable, with an optional filter
+Closure	                  "A function inside a function"	              A function that keeps variables from the function that created it
+Dataclass	                "A struct"	                                  A class whose __init__, __repr__, and __eq__ methods Python writes from the annotated fields
+Context manager	          "A with block"	                              An object that runs setup code at the start of a with block and cleanup code at the end, even after an exception
+Seed	                    "The random number"	                          The start value of a pseudo-random generator. The same seed gives the same sequence.
+Vectorized code	          "Fast code"	                                  Code that applies one operation to a whole array, so that compiled code runs the loop
+Broadcasting	            "Automatic shape matching"	                  The NumPy rules that combine arrays of different shapes by using size-1 dimensions again, with no copy
+
