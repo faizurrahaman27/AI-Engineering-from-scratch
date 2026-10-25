@@ -1,0 +1,43 @@
+Linux for AI
+
+
+Most AI runs on Linux. You need to know enough to not be stuck.
+
+The Problem
+You develop on macOS or Windows.
+But the moment you SSH into a cloud GPU box, rent a Lambda instance, or spin up an EC2 machine, you land in Ubuntu.
+The terminal is your only interface.
+There is no Finder, no Explorer, no GUI.
+If you can't navigate the file system, install packages, and manage processes from the command line, you're stuck paying for idle GPU hours while googling "how to unzip a file in Linux."
+
+This is a survival guide. It covers exactly what you need to operate on a remote Linux machine for AI work. Nothing more.
+
+There is much to earn here 
+I have to work here bcs much to learn from previous and this one too
+
+but iam not stopping to learn 
+will build this eventually
+
+
+
+for now  ---------------------------------------------->>>>>>>>>>>>>
+
+here is the quick refrence card
+
+
+Navigation:     pwd, ls, cd, find
+Files:          cp, mv, rm, mkdir, cat, head, tail, less
+Search:         grep, find
+Permissions:    chmod, chown, sudo
+Packages:       apt update, apt install
+Processes:      htop, ps, kill, nvidia-smi
+Services:       systemctl start/stop/restart/status
+Disk:           df -h, du -sh
+Network:        curl, wget, scp, rsync
+Sessions:       tmux new/attach/detach
+
+
+On a Linux GPU box everything is a process forked from a parent: init spawns sshd, your login spawns bash, bash spawns the training run.
+SIGINT from Ctrl-C, or kill against the pid you find with ps aux, ends the leaf and frees its GPU memory, which is how you reclaim a box a dead run is still holding.
+
+
